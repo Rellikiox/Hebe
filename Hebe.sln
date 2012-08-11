@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 11
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hebe", "Hebe\Hebe.vcxproj", "{D12FF408-080D-5347-A9DF-464F21B3B9B6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D12FF408-080D-5347-A9DF-464F21B3B9B6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D12FF408-080D-5347-A9DF-464F21B3B9B6}.Debug|Win32.Build.0 = Debug|Win32
+		{D12FF408-080D-5347-A9DF-464F21B3B9B6}.Release|Win32.ActiveCfg = Release|Win32
+		{D12FF408-080D-5347-A9DF-464F21B3B9B6}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
