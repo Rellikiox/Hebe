@@ -30,23 +30,29 @@ namespace hebe {
 	private:
 		static ConnectionManager * _instance;
 		ConnectionManager(void);
+		
+		typedef boost::array<boost::asio::mutable_buffer, 3> Packet;
+		Packet getPacket(int o, int i, string m){
+			boost::array<int,1> op_code = { o };
+			boost::array<int,1> id		= { i };
+			char message[256];
+			strcpy(message, m.c_str());
+			Packet p = {
+				boost::asio::buffer(op_code),
+				boost::asio::buffer(id),
+				boost::asio::buffer(message) };
+			return p;
+		}
 
-		struct Packet{
-			Packet(int o, int i, string m) : op_code(o), id(i), message(m.c_str()) {}
-			boost::array<boost::asio::mutable_buffer, 3> getPacket() {
-				boost::array<int, 1> o = { op_code };
-				boost::array<int, 1> i = { id };
-				//boost::array<char, 512> m = message;
-				boost::array<boost::asio::mutable_buffer, 3> p = {
-					boost::asio::buffer(o),
-					boost::asio::buffer(i),
-					boost::asio::buffer(message)};
-			}
+		map<string, boost::asio::ip::udp::endpoint> server_endpoint_map;
+		typedef map<string, boost::asio::ip::udp::endpoint>::iterator ServerIter;
 
-			int op_code;
-			int id;
-			boost::array<char, 256> message;
-		};
+		map<int, boost::asio::ip::udp::endpoint> id_endpoint_map;
+		typedef map<int, boost::asio::ip::udp::endpoint>::iterator IdIter;
+
+		boost::asio::io_service io_service;
+		boost::asio::ip::udp::socket socket;
+		int next_id;
 	};
 
 }
