@@ -4,6 +4,8 @@
 #include <boost/array.hpp>
 #include <string>
 #include <map>
+#include <queue>
+#include <fstream>
 
 using namespace std;
 
@@ -38,21 +40,19 @@ namespace hebe {
 			int id;
 			boost::array<char, 256> message;
 			int message_length;
+			time_t timestamp;
 		};
-		/*
-		typedef boost::array<boost::asio::, 3> Packet;
-		Packet getPacket(int o, int i, string m){
-			boost::array<int,1> op_code = { o };
-			boost::array<int,1> id		= { i };
-			char message[256];
-			strcpy(message, m.c_str());
-			Packet p = {
-				boost::asio::buffer(op_code),
-				boost::asio::buffer(id),
-				boost::asio::buffer(message) };
 
-			return p;
-		}*/
+		map<int, string> id_name_map;
+		typedef map<int, string>::iterator StringMapIter;
+		map<int, string> id_filename_map;
+
+		map<int, queue<Packet> > unprocesed_packets;
+
+		void ProcessPacket(Packet p);
+		void NewUser(Packet p);
+		void NewFile(Packet p);
+		void LogMessage(Packet p);
 	};
 
 }

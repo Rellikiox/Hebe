@@ -34,6 +34,7 @@ namespace hebe {
 
 		struct Packet{
 			Packet(int o, int i, string m) : op_code(o), id(i) {
+				time(&timestamp);
 				message_length = m.size() <= 256 ? m.size() : 256;
 				for(int i = 0; i < message_length; ++i){
 						message[i] = m[i];
@@ -43,22 +44,8 @@ namespace hebe {
 			int id;
 			boost::array<char,256> message;
 			int message_length;
+			time_t timestamp;
 		};
-		/*
-		typedef boost::array<boost::asio::mutable_buffer, 3> Packet;
-		Packet getPacket(int o, int i, string m){
-			boost::array<int,1> op_code = { o };
-			boost::array<int,1> id		= { i };
-			char message[256];
-			strcpy(message, m.c_str());
-			Packet p = {
-				boost::asio::buffer(op_code),
-				boost::asio::buffer(id),
-				boost::asio::buffer(message) };
-
-			return p;
-		}
-		*/
 
 		map<string, boost::asio::ip::udp::endpoint> server_endpoint_map;
 		typedef map<string, boost::asio::ip::udp::endpoint>::iterator ServerIter;
