@@ -31,6 +31,20 @@ namespace hebe {
 		static ConnectionManager * _instance;
 		ConnectionManager(void);
 		
+
+		struct Packet{
+			Packet(int o, int i, string m) : op_code(o), id(i) {
+				message_length = m.size() <= 256 ? m.size() : 256;
+				for(int i = 0; i < message_length; ++i){
+						message[i] = m[i];
+				}
+			}
+			int op_code;
+			int id;
+			boost::array<char,256> message;
+			int message_length;
+		};
+		/*
 		typedef boost::array<boost::asio::mutable_buffer, 3> Packet;
 		Packet getPacket(int o, int i, string m){
 			boost::array<int,1> op_code = { o };
@@ -44,6 +58,7 @@ namespace hebe {
 
 			return p;
 		}
+		*/
 
 		map<string, boost::asio::ip::udp::endpoint> server_endpoint_map;
 		typedef map<string, boost::asio::ip::udp::endpoint>::iterator ServerIter;

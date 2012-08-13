@@ -30,12 +30,16 @@ namespace hebe {
 
 		//boost::array<char, 1> send_buf  = { 'p' };
 		//socket.send_to(boost::asio::buffer(send_buf), endpoint);
+		
+		Packet p(0,new_id, name);
 
 		// Envio id con nombre (op_code = 0)
-		socket.send_to(boost::asio::buffer(getPacket(0, new_id, name)), endpoint);
-
+		socket.send_to(boost::asio::buffer(&p, sizeof(p)), endpoint);
+		
 		// Envio id con filename (op_code = 1)
-		socket.send_to(boost::asio::buffer(getPacket(1, new_id, filename)), endpoint);
+
+		Packet p2(1, new_id, filename);
+		socket.send_to(boost::asio::buffer(&p2, sizeof(p2)), endpoint);
 
 		return new_id;
 	}
@@ -48,7 +52,8 @@ namespace hebe {
 
 		using boost::asio::ip::udp;
 		udp::endpoint endpoint = iter->second;
+		Packet p(2, id, message);
 		// Envio id con mensaje (op_code = 2)
-		socket.send_to(getPacket(2, id, message), endpoint);
+		socket.send_to(boost::asio::buffer(&p, sizeof(p)), endpoint);
 	}
 }

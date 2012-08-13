@@ -25,7 +25,22 @@ namespace hebe {
 		boost::asio::ip::udp::socket socket;
 		boost::asio::ip::udp::endpoint endpoint;
 
-		typedef boost::array<boost::asio::mutable_buffer, 3> Packet;
+		struct Packet{
+			string GetMessageString(){
+				string result;
+				for(int i = 0; i < message_length; i++){
+					result.push_back(message[i]);
+				}
+				return result;
+			}
+
+			int op_code;
+			int id;
+			boost::array<char, 256> message;
+			int message_length;
+		};
+		/*
+		typedef boost::array<boost::asio::, 3> Packet;
 		Packet getPacket(int o, int i, string m){
 			boost::array<int,1> op_code = { o };
 			boost::array<int,1> id		= { i };
@@ -37,7 +52,7 @@ namespace hebe {
 				boost::asio::buffer(message) };
 
 			return p;
-		}
+		}*/
 	};
 
 }

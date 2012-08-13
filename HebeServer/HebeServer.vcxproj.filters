@@ -23,7 +23,7 @@
     <ClCompile Include="HebeServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
+    <ClCompile Include="ServerSource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
