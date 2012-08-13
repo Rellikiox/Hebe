@@ -4,18 +4,17 @@ namespace hebe {
 
 	ConnectionManager * ConnectionManager::_instance = NULL;
 
-	ConnectionManager::ConnectionManager(void) {
-		next_id = 0;
-		socket = boost::asio::ip::udp::socket(io_service);
+	ConnectionManager::ConnectionManager(void) : socket(io_service), next_id(0) {
+		socket.open(boost::asio::ip::udp::v4());
 	}
 
 	ConnectionManager::~ConnectionManager(void) {
-
+		socket.close();
 	}
 
-	int ConnectionManager::AddLogger(string name, string server, string filename){
+	int ConnectionManager::AddLogger(string name, string server, unsigned short port, string filename){
 		using boost::asio::ip::udp;
-	
+
 		int new_id = next_id++;
 		udp::endpoint endpoint;
 
@@ -23,26 +22,26 @@ namespace hebe {
 		if(iter != server_endpoint_map.end()){
 			endpoint = iter->second;
 		}else{
-			udp::resolver resolver(io_service);
-			udp::resolver::query query(udp::v4(), server); 
-			endpoint = *resolver.resolve(query);
+			endpoint = udp::endpoint(boost::asio::ip::address::from_string(server), port);
+
 			server_endpoint_map[server] = endpoint;
 			id_endpoint_map[new_id] = endpoint;
 		}
 
-		// Envio id con nombre (op_code = 0)
+		//boost::array<char, 1> send_buf  = { 'p' };
+		//socket.send_to(boost::asio::buffer(send_buf), endpoint);
 
-		socket.send_to(getPacket(0, new_id, name), endpoint);
+		// Envio id con nombre (op_code = 0)
+		socket.send_to(boost::asio::buffer(getPacket(0, new_id, name)), endpoint);
 
 		// Envio id con filename (op_code = 1)
-
-		socket.send_to(getPacket(1, new_id, filename), endpoint);
+		socket.send_to(boost::asio::buffer(getPacket(1, new_id, filename)), endpoint);
 
 		return new_id;
 	}
 
 	void ConnectionManager::Send(int id, string message){
-		
+
 		IdIter iter = id_endpoint_map.find(id);
 		if(iter == id_endpoint_map.end())
 			return;

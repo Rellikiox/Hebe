@@ -11,7 +11,7 @@ namespace hebe {
 	public:
 		Logger(void);
 		~Logger(void);
-		Logger(string logger_name, string server_address, string filename);
+		Logger(string logger_name, string server_address, unsigned short port, string filename);
 		Logger(const Logger &l);
 		Logger & operator=(const Logger &l);
 

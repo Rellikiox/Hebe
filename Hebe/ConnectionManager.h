@@ -23,7 +23,7 @@ namespace hebe {
 		}
 		~ConnectionManager(void);
 
-		int AddLogger(string name, string server, string filename);
+		int AddLogger(string name, string server, unsigned short port, string filename);
 
 		void Send(int id, string message);
 
@@ -41,6 +41,7 @@ namespace hebe {
 				boost::asio::buffer(op_code),
 				boost::asio::buffer(id),
 				boost::asio::buffer(message) };
+
 			return p;
 		}
 

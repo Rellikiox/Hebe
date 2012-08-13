@@ -13,9 +13,9 @@ namespace hebe {
 		id = -1;
 	}
 
-	Logger::Logger(string logger_name, string server_address, string filename) {
+	Logger::Logger(string logger_name, string server_address, unsigned short port, string filename) {
 		cm = ConnectionManager::getInstance();
-		id = cm->AddLogger(logger_name, server_address, filename);
+		id = cm->AddLogger(logger_name, server_address, port, filename);
 	}
 	
 	Logger::Logger(const Logger &l) {
@@ -28,6 +28,7 @@ namespace hebe {
 			cm = l.cm;
 			id = l.id;
 		}
+		return *this;
 	}
 
 	void Logger::Log(string message) {
