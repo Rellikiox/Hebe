@@ -36,13 +36,6 @@ namespace hebe {
 			std::cout << "Message: " << recv_buf.GetMessageString() << std::endl;
 
 			ProcessPacket(recv_buf);
-			/*
-			boost::array<int,1> op_code(boost::asio::buffer_cast<boost::array<int, 1> >(recv_buf[0]));
-			boost::array<int,1> id(boost::asio::buffer_cast<boost::array<int, 1> >(recv_buf[1]));
-			//boost::array<int,1> message(boost::asio::buffer_cast<char *>(recv_buf[2]));
-
-			std::cout << "op_code: " << op_code[0] << endl;
-			std::cout << "id: " << id[0] << endl;*/
 		}
 	}
 
